@@ -261,7 +261,7 @@ func startArea(player tge.Player, game tge.Game) {
       printSlow(description)
     } else if userchoice == "inv" {
       s()
-      fmt.Println(player.Inventory)
+      tge.PrintInventory(&player.Inventory)
       s()
     } else if userchoice == "help" || userchoice == "?" {
       s()
@@ -434,7 +434,7 @@ func wArea(player tge.Player, game tge.Game) {
       printSlow(description)
     } else if userchoice == "inv" {
       s()
-      fmt.Println(player.Inventory)
+      tge.PrintInventory(&player.Inventory)
       s()
     } else if userchoice == "help" || userchoice == "?" {
       s()
@@ -568,7 +568,7 @@ func nwArea(player tge.Player, game tge.Game) {
       printSlow(description)
     } else if userchoice == "inv" {
       s()
-      fmt.Println(player.Inventory)
+      tge.PrintInventory(&player.Inventory)
       s()
     } else if userchoice == "help" || userchoice == "?" {
       s()
@@ -707,7 +707,7 @@ func swArea(player tge.Player, game tge.Game) {
       printSlow(description)
     } else if userchoice == "inv" {
       s()
-      fmt.Println(player.Inventory)
+      tge.PrintInventory(&player.Inventory)
       s()
     } else if userchoice == "help" || userchoice == "?" {
       s()
@@ -845,7 +845,7 @@ func sArea(player tge.Player, game tge.Game) {
       printSlow(description)
     } else if userchoice == "inv" {
       s()
-      fmt.Println(player.Inventory)
+      tge.PrintInventory(&player.Inventory)
       s()
     } else if userchoice == "help" || userchoice == "?" {
       s()
@@ -1008,7 +1008,7 @@ func seArea(player tge.Player, game tge.Game) {
       printSlow(description)
     } else if userchoice == "inv" {
       s()
-      fmt.Println(player.Inventory)
+      tge.PrintInventory(&player.Inventory)
       s()
     } else if userchoice == "help" || userchoice == "?" {
       s()
@@ -1145,7 +1145,7 @@ func eArea(player tge.Player, game tge.Game) {
       printSlow(description)
     } else if userchoice == "inv" {
       s()
-      fmt.Println(player.Inventory)
+      tge.PrintInventory(&player.Inventory)
       s()
     } else if userchoice == "help" || userchoice == "?" {
       s()
@@ -1301,7 +1301,7 @@ func neArea(player tge.Player, game tge.Game) {
       printSlow(description)
     } else if userchoice == "inv" {
       s()
-      fmt.Println(player.Inventory)
+      tge.PrintInventory(&player.Inventory)
       s()
     } else if userchoice == "help" || userchoice == "?" {
       s()
@@ -1492,7 +1492,7 @@ func nArea(player tge.Player, game tge.Game) {
       printSlow(description)
     } else if userchoice == "inv" {
       s()
-      fmt.Println(player.Inventory)
+      tge.PrintInventory(&player.Inventory)
       s()
     } else if userchoice == "help" || userchoice == "?" {
       s()
