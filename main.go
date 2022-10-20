@@ -20,6 +20,7 @@ import (
   "strings"
   "flag"
   "strconv"
+  tge "github.com/unclassedpenguin/textgameengine"
 )
 
 
@@ -57,7 +58,7 @@ func cantGo() {
     case 3:
       s()
       printSlow("It's not possible to go that way.")
-    default:
+
       s()
       printSlow("How'd you get here?")
     }
@@ -82,36 +83,6 @@ func printSlow(str string) {
   }
 }
 
-// Adds an item to the inventory, or just returns the inventory
-func inv(item string) []string {
-  if item == "?" {
-    return inventory
-  } else {
-    inventory = append(inventory, item)
-    return inventory
-  }
-}
-
-// Check if item is contained in slice (inventory)
-func contains(str string, s []string) bool {
-  for _, v := range s {
-    if v == str {
-      return true
-    }
-  }
-  return false
-}
-
-// Get index of item in slice
-func indexOf(str string, s []string) (int) {
-  for k, v := range s {
-    if str == v {
-      return k
-    }
-  }
-  return -1    //not found.
-}
-
 // Diagnostics thing to check value of area inv variables
 //func checkLocalItems(axe bool, sword bool, rope bool) {
   //fmt.Println("-----------------------------")
@@ -124,13 +95,6 @@ func indexOf(str string, s []string) (int) {
 // Just prints a separator
 func dashLine() {
   fmt.Println("--------------------------------------------------------------------------------")
-}
-
-// Get a single random number
-func randNumber(max int) int {
-  rand.Seed(time.Now().UnixNano())
-  rn := rand.Intn(max)
-  return rn
 }
 
 //s for give me some (s)pace
@@ -178,7 +142,7 @@ func intro() string{
 }
 
 
-func startArea() {
+func startArea(player tge.Player) {
   // validDirections = south, west
 
   var userchoice string
@@ -225,11 +189,11 @@ func startArea() {
     } else if userchoice == "south" {
       s()
       printSlow("You go south.")
-      sArea()
+      sArea(player)
     } else if userchoice == "west" {
       s()
       printSlow("You go west.")
-      wArea()
+      wArea(player)
     } else if userchoice == "axe" {
       s()
       i := inv("?")
@@ -326,7 +290,7 @@ func startArea() {
 }
 
 
-func wArea() {
+func wArea(player tge.Player) {
   // validDirections = north, east, south
 
   var userchoice string
@@ -340,7 +304,7 @@ func wArea() {
 
   baseDescription = "There is a little clearing in the trees here with a small pond, fed by a natural spring, which has a stream leading out of it to the south."
 
-  if event["log"] {
+  if player.Events["log"] {
     eventLog = " To the north it looks like there is a path, but with a large log blocking the way."
     directions = "\nYou can go east or south."
   } else {
@@ -381,16 +345,16 @@ func wArea() {
       if contains("axe", i) && event["log"] == true {
         printSlow("You use your axe to clear the log and travel north.")
         event["log"] = false
-        nwArea()
+        nwArea(player)
         // if user has axe and log is not there
       } else if contains("axe", i) && event["log"] == false {
         printSlow("You travel north.")
-        nwArea()
+        nwArea(player)
         // if user has already cleared the log, dropped the axe back in startArea 
         // and comes back. So log not there, and doesn't have axe.
       } else if event["log"] == false {
         printSlow("You travel north.")
-        nwArea()
+        nwArea(player)
         // if user doesn't have axe and the log is still there
       } else {
         printSlow("There is a log blocking the way! If only you had a way to clear it...")
@@ -398,11 +362,11 @@ func wArea() {
     } else if userchoice == "east" {
       s()
       printSlow("You go east.")
-      startArea()
+      startArea(player)
     } else if userchoice == "south" {
       s()
       printSlow("You go south.")
-      swArea()
+      swArea(player)
     } else if userchoice == "west" {
       cantGo()
     } else if userchoice == "pond" {
@@ -856,7 +820,7 @@ func sArea() {
     if userchoice == "north" {
       s()
       printSlow("You go north.")
-      startArea()
+      startArea(player)
     } else if userchoice == "east" {
       s()
       printSlow("You go east.")
@@ -1723,10 +1687,7 @@ var nRope bool
 
 // Global event tracker
 // ask, Does it exist? if so, true. 
-var event = map[string]bool {
-  "log":true,
-  "monster":true,
-}
+
 
 //-----------------------------------------------------------------------------
 // Global variables end
@@ -1767,6 +1728,17 @@ func main() {
   nRope = false
 
   name = intro()
+  player = tge.Player {
+    Name: name,
+    Score: 0,
+    Events: make(map[string]bool),
+  }
+
+  player.Events = map[string]bool {
+    "log":true,
+    "monster":true,
+  }
+
   s()
-  startArea()
+  startArea(player)
 }
