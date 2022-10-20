@@ -141,7 +141,7 @@ func intro() string{
 }
 
 
-func startArea(player tge.Player) {
+func startArea(player tge.Player, game tge.Game) {
   // validDirections = south, west
 
   var userchoice string
@@ -188,11 +188,11 @@ func startArea(player tge.Player) {
     } else if userchoice == "south" {
       s()
       printSlow("You go south.")
-      sArea(player)
+      sArea(player, game)
     } else if userchoice == "west" {
       s()
       printSlow("You go west.")
-      wArea(player)
+      wArea(player, game)
     } else if userchoice == "axe" {
       s()
       if tge.InventoryContains(&player.Inventory, "axe") {
@@ -276,7 +276,7 @@ func startArea(player tge.Player) {
 }
 
 
-func wArea(player tge.Player) {
+func wArea(player tge.Player, game tge.Game) {
   // validDirections = north, east, south
 
   var userchoice string
@@ -290,7 +290,7 @@ func wArea(player tge.Player) {
 
   baseDescription = "There is a little clearing in the trees here with a small pond, fed by a natural spring, which has a stream leading out of it to the south."
 
-  if player.Events["log"] {
+  if game.Events["log"] {
     eventLog = " To the north it looks like there is a path, but with a large log blocking the way."
     directions = "\nYou can go east or south."
   } else {
@@ -327,19 +327,19 @@ func wArea(player tge.Player) {
     if userchoice == "north" {
       s()
         // if user has axe and log is still there
-      if tge.InventoryContains(&player.Inventory, "axe") && player.Events["log"] == true {
+      if tge.InventoryContains(&player.Inventory, "axe") && game.Events["log"] == true {
         printSlow("You use your axe to clear the log and travel north.")
-        player.Events["log"] = false
-        nwArea(player)
+        game.Events["log"] = false
+        nwArea(player, game)
         // if user has axe and log is not there
-      } else if tge.InventoryContains(&player.Inventory, "axe") && player.Events["log"] == false {
+      } else if tge.InventoryContains(&player.Inventory, "axe") && game.Events["log"] == false {
         printSlow("You travel north.")
-        nwArea(player)
+        nwArea(player, game)
         // if user has already cleared the log, dropped the axe back in startArea 
         // and comes back. So log not there, and doesn't have axe.
-      } else if player.Events["log"] == false {
+      } else if game.Events["log"] == false {
         printSlow("You travel north.")
-        nwArea(player)
+        nwArea(player, game)
         // if user doesn't have axe and the log is still there
       } else {
         printSlow("There is a log blocking the way! If only you had a way to clear it...")
@@ -347,11 +347,11 @@ func wArea(player tge.Player) {
     } else if userchoice == "east" {
       s()
       printSlow("You go east.")
-      startArea(player)
+      startArea(player, game)
     } else if userchoice == "south" {
       s()
       printSlow("You go south.")
-      swArea(player)
+      swArea(player, game)
     } else if userchoice == "west" {
       cantGo()
     } else if userchoice == "pond" {
@@ -402,7 +402,7 @@ func wArea(player tge.Player) {
     //} else if userchoice == "?" {
       //checkLocalItems(wAxe, wSword, wRope)
     } else if userchoice == "look" {
-      if player.Events["log"] {
+      if game.Events["log"] {
         eventLog = " To the north it looks like there is a path, but with a large log blocking the way."
       } else {
         eventLog = " To the north there is a path you cleared, with a large log split in half on either side."
@@ -449,7 +449,7 @@ func wArea(player tge.Player) {
 }
 
 
-func nwArea(player tge.Player) {
+func nwArea(player tge.Player, game tge.Game) {
   // validDirections = south, west
 
   var userchoice string
@@ -497,7 +497,7 @@ func nwArea(player tge.Player) {
     } else if userchoice == "south" {
       s()
       printSlow("You go south.")
-      wArea(player)
+      wArea(player, game)
     } else if userchoice == "west" {
       cantGo()
     } else if userchoice == "axe" {
@@ -583,7 +583,7 @@ func nwArea(player tge.Player) {
 }
 
 
-func swArea(player tge.Player) {
+func swArea(player tge.Player, game tge.Game) {
   // validDirections = north, east
 
   var userchoice string
@@ -627,11 +627,11 @@ func swArea(player tge.Player) {
     if userchoice == "north" {
       s()
       printSlow("You go north.")
-      wArea(player)
+      wArea(player, game)
     } else if userchoice == "east" {
       s()
       printSlow("You go east.")
-      sArea(player)
+      sArea(player, game)
     } else if userchoice == "south" {
       cantGo()
     } else if userchoice == "west" {
@@ -722,7 +722,7 @@ func swArea(player tge.Player) {
 }
 
 
-func sArea(player tge.Player) {
+func sArea(player tge.Player, game tge.Game) {
   // validDirections = north, east, west
 
   var userchoice string
@@ -766,17 +766,17 @@ func sArea(player tge.Player) {
     if userchoice == "north" {
       s()
       printSlow("You go north.")
-      startArea(player)
+      startArea(player, game)
     } else if userchoice == "east" {
       s()
       printSlow("You go east.")
-      seArea(player)
+      seArea(player, game)
     } else if userchoice == "south" {
       cantGo()
     } else if userchoice == "west" {
       s()
       printSlow("You go west.")
-      swArea(player)
+      swArea(player, game)
     } else if userchoice == "axe" {
       s()
       if tge.InventoryContains(&player.Inventory, "axe") {
@@ -860,7 +860,7 @@ func sArea(player tge.Player) {
 }
 
 
-func seArea(player tge.Player) {
+func seArea(player tge.Player, game tge.Game) {
   // validDirections = north, west
 
   // count for attempts at climbing cliff without rope.
@@ -909,7 +909,7 @@ func seArea(player tge.Player) {
       // If you have the rope, you are guaranteed to climb the cliff. 
       if tge.InventoryContains(&player.Inventory, "rope") {
         printSlow("You use the rope to climb the cliff.")
-        eArea(player)
+        eArea(player, game)
       // This is if you don't have a rope. Gives you a small change of
       // climbing the cliff. Currently 1/20 chance. Too small? Too big? 
       } else {
@@ -920,7 +920,7 @@ func seArea(player tge.Player) {
           switch rn {
             case 7:
               printSlow("You used your skill to successfully climb the cliff!")
-              eArea(player)
+              eArea(player, game)
             default:
               count += 1
               printSlow("You failed to climb the cliff, and fell to the bottom! Ouch!")
@@ -936,7 +936,7 @@ func seArea(player tge.Player) {
     } else if userchoice == "west" {
       s()
       printSlow("You go west.")
-      sArea(player)
+      sArea(player, game)
     } else if userchoice == "mountain" {
       s()
       printSlow("To the east and south are mountains for miles.")
@@ -1023,7 +1023,7 @@ func seArea(player tge.Player) {
 }
 
 
-func eArea(player tge.Player) {
+func eArea(player tge.Player, game tge.Game) {
   // validDirections = north, south
 
   var userchoice string
@@ -1067,13 +1067,13 @@ func eArea(player tge.Player) {
     if userchoice == "north" {
       s()
       printSlow("You go north.")
-      neArea(player)
+      neArea(player, game)
     } else if userchoice == "east" {
       cantGo()
     } else if userchoice == "south" {
       s()
       printSlow("You go south.")
-      seArea(player)
+      seArea(player, game)
     } else if userchoice == "west" {
       cantGo()
     } else if userchoice == "axe" {
@@ -1160,7 +1160,7 @@ func eArea(player tge.Player) {
 }
 
 
-func neArea(player tge.Player) {
+func neArea(player tge.Player, game tge.Game) {
   // validDirections = south, west
 
   var userchoice string
@@ -1174,7 +1174,7 @@ func neArea(player tge.Player) {
 
   baseDescription = "You enter another forest area. Pines are surrounding you on all sides. There is a path to the west."
 
-  if player.Events["monster"] {
+  if game.Events["monster"] {
     eventMonster = " When you look closer you see there is a monster standing there, blocking your path."
   } else {
     eventMonster = " The monster you have slain is laying to the side of the path heading west."
@@ -1215,17 +1215,17 @@ func neArea(player tge.Player) {
     } else if userchoice == "south" {
       s()
       printSlow("You go south.")
-      eArea(player)
+      eArea(player, game)
     } else if userchoice == "west" {
-      if tge.InventoryContains(&player.Inventory, "sword") && player.Events["monster"] {
-        monsterFight(player)
-      } else if player.Events["monster"]{
+      if tge.InventoryContains(&player.Inventory, "sword") && game.Events["monster"] {
+        monsterFight(player, game)
+      } else if game.Events["monster"]{
         s()
         printSlow("I don't think you can fight the monster without a sword...")
       } else {
         s()
         printSlow("You go west.")
-        nArea(player)
+        nArea(player, game)
       }
     } else if userchoice == "axe" {
       s()
@@ -1269,7 +1269,7 @@ func neArea(player tge.Player) {
     //} else if userchoice == "?" {
       //checkLocalItems(neAxe, neSword, neRope)
     } else if userchoice == "look" {
-      if player.Events["monster"] {
+      if game.Events["monster"] {
         eventMonster = "When you look closer you see there is a monster standing there, blocking your path."
       } else {
         eventMonster = "The monster you have slain is laying to the side of the path heading west."
@@ -1316,8 +1316,8 @@ func neArea(player tge.Player) {
 }
 
 
-func monsterFight(player tge.Player) {
-  if player.Events["monster"] {
+func monsterFight(player tge.Player, game tge.Game) {
+  if game.Events["monster"] {
     var userchoice int
     var damage int
     //var stringDamage string
@@ -1352,8 +1352,8 @@ func monsterFight(player tge.Player) {
           printSlow("You Defeated the monster!")
           s()
           printSlow("You go west.")
-          player.Events["monster"] = false
-          nArea(player)
+          game.Events["monster"] = false
+          nArea(player, game)
         }
       } else {
         s()
@@ -1363,12 +1363,12 @@ func monsterFight(player tge.Player) {
   } else {
     s()
     printSlow("You go west.")
-    nArea(player)
+    nArea(player, game)
   }
 }
 
 
-func nArea(player tge.Player) {
+func nArea(player tge.Player, game tge.Game) {
   // validDirections = north, east
 
   var userchoice string
@@ -1412,11 +1412,11 @@ func nArea(player tge.Player) {
     if userchoice == "north" {
       s()
       printSlow("You go north.")
-      exitArea(player)
+      exitArea(player, game)
     } else if userchoice == "east" {
       s()
       printSlow("You go east.")
-      neArea(player)
+      neArea(player, game)
     } else if userchoice == "south" {
       cantGo()
     } else if userchoice == "west" {
@@ -1507,7 +1507,7 @@ func nArea(player tge.Player) {
 }
 
 
-func exitArea(player tge.Player) {
+func exitArea(player tge.Player, game tge.Game) {
   s()
   printSlow("Congratulations, " + player.Name + "!")
   printSlow("You win!")
@@ -1610,14 +1610,17 @@ func main() {
   player := tge.Player {
     Name: name,
     Score: 0,
+  }
+
+  game := tge.Game {
     Events: make(map[string]bool),
   }
 
-  player.Events = map[string]bool {
+  game.Events = map[string]bool {
     "log":true,
     "monster":true,
   }
 
   s()
-  startArea(player)
+  startArea(player, game)
 }
