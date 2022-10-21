@@ -77,7 +77,7 @@ func intro(termWidth int) string{
   s()
   fmt.Println("Welcome to UnclassedPenguin TextAdventure!")
   fmt.Println("Author: Tyler(UnclassedPenguin)")
-  fmt.Println("Github: https://github.com/UnclassedPenguin/textgame/")
+  fmt.Println("Github: https://github.com/UnclassedPenguin/textgamev2/")
   s()
   s()
   tge.PrintSlow("What's your name?", termWidth, slowMode)
@@ -1563,7 +1563,6 @@ func main() {
     fmt.Println(err)
     os.Exit(1)
   }
-
 
   name = intro(termWidth)
   player := tge.Player {
