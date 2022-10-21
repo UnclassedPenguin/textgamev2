@@ -43,24 +43,24 @@ func help() {
 
 //I'd like to make a few phrases here and randomly pick one to say, just
 //for some variety.
-func cantGo() {
+func cantGo(termWidth int) {
   rn := tge.RandNumber(4)
   switch rn {
     case 0:
       s()
-      printSlow("I'm sorry, That way is blocked.")
+      printSlow("I'm sorry, That way is blocked.", termWidth)
     case 1:
       s()
-      printSlow("I'm sorry, you can't go that way.")
+      printSlow("I'm sorry, you can't go that way.", termWidth)
     case 2:
       s()
-      printSlow("Doesn't seem to be a path in that direction.")
+      printSlow("Doesn't seem to be a path in that direction.", termWidth)
     case 3:
       s()
-      printSlow("It's not possible to go that way.")
+      printSlow("It's not possible to go that way.", termWidth)
 
       s()
-      printSlow("How'd you get here?")
+      printSlow("How'd you get here?", termWidth)
     }
 }
 
@@ -139,7 +139,7 @@ func exit(i int) {
 // Areas start
 //-----------------------------------------------------------------------------
 
-func intro() string{
+func intro(termWidth int) string{
   var name string
   s()
   fmt.Println("Welcome to UnclassedPenguin TextAdventure!")
@@ -147,18 +147,18 @@ func intro() string{
   fmt.Println("Github: https://github.com/UnclassedPenguin/textgame/")
   s()
   s()
-  printSlow("What's your name?")
+  printSlow("What's your name?", termWidth)
   fmt.Print(" > ")
   fmt.Scan(&name)
   if name == "exit" {
     exit(0)
   }
   s()
-  printSlow("Hope you enjoy the game, " + name + ". Good luck!\nIf you get stuck, try 'help'.")
+  printSlow("Hope you enjoy the game, " + name + ". Good luck!\nIf you get stuck, try 'help'.", termWidth)
   s()
   dashLine()
   s()
-  printSlow("You wake up and become aware of your surroundings. You're not quite sure what happened, and your head feels a bit cloudy. Your eyes slowly start to open........")
+  printSlow("You wake up and become aware of your surroundings. You're not quite sure what happened, and your head feels a bit cloudy. Your eyes slowly start to open........", termWidth)
   return name
 }
 
@@ -198,61 +198,61 @@ func startArea(player tge.Player, game tge.Game) {
 
   description = baseDescription + axeDescription + swordDescription + ropeDescription + "\n" + directions
 
-  printSlow(description)
+  printSlow(description, game.TermWidth)
 
   for true {
     fmt.Print(" > ")
     fmt.Scan(&userchoice)
     if userchoice == "north" {
-      cantGo()
+      cantGo(game.TermWidth)
     } else if userchoice == "east" {
-      cantGo()
+      cantGo(game.TermWidth)
     } else if userchoice == "south" {
       s()
-      printSlow("You go south.")
+      printSlow("You go south.", game.TermWidth)
       sArea(player, game)
     } else if userchoice == "west" {
       s()
-      printSlow("You go west.")
+      printSlow("You go west.", game.TermWidth)
       wArea(player, game)
     } else if userchoice == "axe" {
       s()
       if tge.InventoryContains(&player.Inventory, "axe") {
         startAxe = true
-        printSlow("You drop the axe.")
+        printSlow("You drop the axe.", game.TermWidth)
         tge.InventoryRemove(&player.Inventory, "axe")
       } else if startAxe {
         startAxe = false
-        printSlow("You pick up the axe. It's a nice heavy American felling axe.")
+        printSlow("You pick up the axe. It's a nice heavy American felling axe.", game.TermWidth)
         tge.InventoryAdd(&player.Inventory, "axe")
       } else {
-        printSlow("What axe?")
+        printSlow("What axe?", game.TermWidth)
       }
     } else if userchoice == "sword" {
       s()
       if tge.InventoryContains(&player.Inventory, "sword") {
         startSword = true
-        printSlow("You drop the sword.")
+        printSlow("You drop the sword.", game.TermWidth)
         tge.InventoryRemove(&player.Inventory, "sword")
       } else if startSword {
         startSword = false
-        printSlow("You pick up the sword. It's a long sword.")
+        printSlow("You pick up the sword. It's a long sword.", game.TermWidth)
         tge.InventoryAdd(&player.Inventory, "sword")
       } else {
-        printSlow("What sword?")
+        printSlow("What sword?", game.TermWidth)
       }
     } else if userchoice == "rope" {
       s()
       if tge.InventoryContains(&player.Inventory, "rope") {
         startRope = true
-        printSlow("You drop the rope.")
+        printSlow("You drop the rope.", game.TermWidth)
         tge.InventoryRemove(&player.Inventory, "rope")
       } else if startRope {
         startRope = false
-        printSlow("You pick up the rope. It looks heavy enough to hold your weight.")
+        printSlow("You pick up the rope. It looks heavy enough to hold your weight.", game.TermWidth)
         tge.InventoryAdd(&player.Inventory, "rope")
       } else {
-        printSlow("What rope?")
+        printSlow("What rope?", game.TermWidth)
       }
     //} else if userchoice == "?" {
       //checkLocalItems(startAxe, startSword, startRope)
@@ -280,7 +280,7 @@ func startArea(player tge.Player, game tge.Game) {
       description := baseDescription + axeDescription + swordDescription + ropeDescription + "\n" + directions
 
       s()
-      printSlow(description)
+      printSlow(description, game.TermWidth)
     } else if userchoice == "inv" {
       s()
       tge.PrintInventory(&player.Inventory)
@@ -292,7 +292,7 @@ func startArea(player tge.Player, game tge.Game) {
       exit(0)
     } else {
       s()
-      printSlow("I'm sorry I don't understand '" + userchoice + "'. Please enter another option, or try 'help'.\n")
+      printSlow("I'm sorry I don't understand '" + userchoice + "'. Please enter another option, or try 'help'.\n", game.TermWidth)
     }
   }
 }
@@ -341,7 +341,7 @@ func wArea(player tge.Player, game tge.Game) {
   description = baseDescription + eventLog + axeDescription + swordDescription + ropeDescription + directions
 
   s()
-  printSlow(description)
+  printSlow(description, game.TermWidth)
 
   for true {
     fmt.Print(" > ")
@@ -350,76 +350,76 @@ func wArea(player tge.Player, game tge.Game) {
       s()
         // if user has axe and log is still there
       if tge.InventoryContains(&player.Inventory, "axe") && game.Events["log"] == true {
-        printSlow("You use your axe to clear the log and travel north.")
+        printSlow("You use your axe to clear the log and travel north.", game.TermWidth)
         game.Events["log"] = false
         nwArea(player, game)
         // if user has axe and log is not there
       } else if tge.InventoryContains(&player.Inventory, "axe") && game.Events["log"] == false {
-        printSlow("You travel north.")
+        printSlow("You travel north.", game.TermWidth)
         nwArea(player, game)
         // if user has already cleared the log, dropped the axe back in startArea 
         // and comes back. So log not there, and doesn't have axe.
       } else if game.Events["log"] == false {
-        printSlow("You travel north.")
+        printSlow("You travel north.", game.TermWidth)
         nwArea(player, game)
         // if user doesn't have axe and the log is still there
       } else {
-        printSlow("There is a log blocking the way! If only you had a way to clear it...")
+        printSlow("There is a log blocking the way! If only you had a way to clear it...", game.TermWidth)
       }
     } else if userchoice == "east" {
       s()
-      printSlow("You go east.")
+      printSlow("You go east.", game.TermWidth)
       startArea(player, game)
     } else if userchoice == "south" {
       s()
-      printSlow("You go south.")
+      printSlow("You go south.", game.TermWidth)
       swArea(player, game)
     } else if userchoice == "west" {
-      cantGo()
+      cantGo(game.TermWidth)
     } else if userchoice == "pond" {
       s()
-      printSlow("You look in the pond. There are some small fish swimming around.")
+      printSlow("You look in the pond. There are some small fish swimming around.", game.TermWidth)
     } else if userchoice == "fish" {
       s()
-      printSlow("You say hi to the fish in the pond, but they don't seem interested in being friends.")
+      printSlow("You say hi to the fish in the pond, but they don't seem interested in being friends.", game.TermWidth)
     } else if userchoice == "axe" {
       s()
       if tge.InventoryContains(&player.Inventory, "axe") {
         wAxe = true
-        printSlow("You drop the axe.")
+        printSlow("You drop the axe.", game.TermWidth)
         tge.InventoryRemove(&player.Inventory, "axe")
       } else if wAxe {
         wAxe = false
-        printSlow("You pick up the axe. It's a nice heavy American felling axe.")
+        printSlow("You pick up the axe. It's a nice heavy American felling axe.", game.TermWidth)
         tge.InventoryAdd(&player.Inventory, "axe")
       } else {
-        printSlow("What axe?")
+        printSlow("What axe?", game.TermWidth)
       }
     } else if userchoice == "sword" {
       s()
       if tge.InventoryContains(&player.Inventory, "sword") {
         wSword = true
-        printSlow("You drop the sword.")
+        printSlow("You drop the sword.", game.TermWidth)
         tge.InventoryRemove(&player.Inventory, "sword")
       } else if wSword {
         wSword = false
-        printSlow("You pick up the sword. It's a long sword.")
+        printSlow("You pick up the sword. It's a long sword.", game.TermWidth)
         tge.InventoryAdd(&player.Inventory, "sword")
       } else {
-        printSlow("What sword?")
+        printSlow("What sword?", game.TermWidth)
       }
     } else if userchoice == "rope" {
       s()
       if tge.InventoryContains(&player.Inventory, "rope") {
         wRope = true
-        printSlow("You drop the rope.")
+        printSlow("You drop the rope.", game.TermWidth)
         tge.InventoryRemove(&player.Inventory, "rope")
       } else if wRope {
         wRope = false
-        printSlow("You pick up the rope. It looks heavy enough to hold your weight.")
+        printSlow("You pick up the rope. It looks heavy enough to hold your weight.", game.TermWidth)
         tge.InventoryAdd(&player.Inventory, "rope")
       } else {
-        printSlow("What rope?")
+        printSlow("What rope?", game.TermWidth)
       }
     //} else if userchoice == "?" {
       //checkLocalItems(wAxe, wSword, wRope)
@@ -453,7 +453,7 @@ func wArea(player tge.Player, game tge.Game) {
       description = baseDescription + eventLog + axeDescription + swordDescription + ropeDescription + directions
 
       s()
-      printSlow(description)
+      printSlow(description, game.TermWidth)
     } else if userchoice == "inv" {
       s()
       tge.PrintInventory(&player.Inventory)
@@ -465,7 +465,7 @@ func wArea(player tge.Player, game tge.Game) {
       exit(0)
     } else {
       s()
-      printSlow("I'm sorry I don't understand '" + userchoice + "'. Please enter another option, or try 'help'.\n")
+      printSlow("I'm sorry I don't understand '" + userchoice + "'. Please enter another option, or try 'help'.\n", game.TermWidth)
     }
   }
 }
@@ -507,59 +507,59 @@ func nwArea(player tge.Player, game tge.Game) {
   description = baseDescription + swordDescription + axeDescription + ropeDescription + directions
 
   s()
-  printSlow(description)
+  printSlow(description, game.TermWidth)
 
   for true {
     fmt.Print(" > ")
     fmt.Scan(&userchoice)
     if userchoice == "north" {
-      cantGo()
+      cantGo(game.TermWidth)
     } else if userchoice == "east" {
-      cantGo()
+      cantGo(game.TermWidth)
     } else if userchoice == "south" {
       s()
-      printSlow("You go south.")
+      printSlow("You go south.", game.TermWidth)
       wArea(player, game)
     } else if userchoice == "west" {
-      cantGo()
+      cantGo(game.TermWidth)
     } else if userchoice == "axe" {
       s()
       if tge.InventoryContains(&player.Inventory, "axe") {
         nwAxe = true
-        printSlow("You drop the axe.")
+        printSlow("You drop the axe.", game.TermWidth)
         tge.InventoryRemove(&player.Inventory, "axe")
       } else if nwAxe {
         nwAxe = false
-        printSlow("You pick up the axe. It's a nice heavy American felling axe.")
+        printSlow("You pick up the axe. It's a nice heavy American felling axe.", game.TermWidth)
         tge.InventoryAdd(&player.Inventory, "axe")
       } else {
-        printSlow("What axe?")
+        printSlow("What axe?", game.TermWidth)
       }
     } else if userchoice == "sword" {
       s()
       if tge.InventoryContains(&player.Inventory, "sword") {
         nwSword = true
-        printSlow("You drop the sword.")
+        printSlow("You drop the sword.", game.TermWidth)
         tge.InventoryRemove(&player.Inventory, "sword")
       } else if nwSword {
         nwSword = false
-        printSlow("You pick up the sword. It's a long sword.")
+        printSlow("You pick up the sword. It's a long sword.", game.TermWidth)
         tge.InventoryAdd(&player.Inventory, "sword")
       } else {
-        printSlow("What sword?")
+        printSlow("What sword?", game.TermWidth)
       }
     } else if userchoice == "rope" {
       s()
       if tge.InventoryContains(&player.Inventory, "rope") {
         nwRope = true
-        printSlow("You drop the rope.")
+        printSlow("You drop the rope.", game.TermWidth)
         tge.InventoryRemove(&player.Inventory, "rope")
       } else if nwRope {
         nwRope = false
-        printSlow("You pick up the rope. It looks heavy enough to hold your weight.")
+        printSlow("You pick up the rope. It looks heavy enough to hold your weight.", game.TermWidth)
         tge.InventoryAdd(&player.Inventory, "rope")
       } else {
-        printSlow("What rope?")
+        printSlow("What rope?", game.TermWidth)
       }
     //} else if userchoice == "?" {
       //checkLocalItems(nwAxe, nwSword, nwRope)
@@ -587,7 +587,7 @@ func nwArea(player tge.Player, game tge.Game) {
       description = baseDescription + swordDescription + axeDescription + ropeDescription + directions
 
       s()
-      printSlow(description)
+      printSlow(description, game.TermWidth)
     } else if userchoice == "inv" {
       s()
       tge.PrintInventory(&player.Inventory)
@@ -599,7 +599,7 @@ func nwArea(player tge.Player, game tge.Game) {
       exit(0)
     } else {
       s()
-      printSlow("I'm sorry I don't understand '" + userchoice + "'. Please enter another option, or try 'help'.\n")
+      printSlow("I'm sorry I don't understand '" + userchoice + "'. Please enter another option, or try 'help'.\n", game.TermWidth)
     }
   }
 }
@@ -641,64 +641,64 @@ func swArea(player tge.Player, game tge.Game) {
   description = baseDescription + axeDescription + swordDescription + ropeDescription + directions
 
   s()
-  printSlow(description)
+  printSlow(description, game.TermWidth)
 
   for true {
     fmt.Print(" > ")
     fmt.Scan(&userchoice)
     if userchoice == "north" {
       s()
-      printSlow("You go north.")
+      printSlow("You go north.", game.TermWidth)
       wArea(player, game)
     } else if userchoice == "east" {
       s()
-      printSlow("You go east.")
+      printSlow("You go east.", game.TermWidth)
       sArea(player, game)
     } else if userchoice == "south" {
-      cantGo()
+      cantGo(game.TermWidth)
     } else if userchoice == "west" {
-      cantGo()
+      cantGo(game.TermWidth)
     } else if userchoice == "stream" {
       s()
-      printSlow("You bend down and use your hands to cup some water and drink it.")
+      printSlow("You bend down and use your hands to cup some water and drink it.", game.TermWidth)
     } else if userchoice == "axe" {
       s()
       if tge.InventoryContains(&player.Inventory, "axe") {
         swAxe = true
-        printSlow("You drop the axe.")
+        printSlow("You drop the axe.", game.TermWidth)
         tge.InventoryRemove(&player.Inventory, "axe")
       } else if swAxe {
         swAxe = false
-        printSlow("You pick up the axe. It's a nice heavy American felling axe.")
+        printSlow("You pick up the axe. It's a nice heavy American felling axe.", game.TermWidth)
         tge.InventoryAdd(&player.Inventory, "axe")
       } else {
-        printSlow("What axe?")
+        printSlow("What axe?", game.TermWidth)
       }
     } else if userchoice == "sword" {
       s()
       if tge.InventoryContains(&player.Inventory, "sword") {
         swSword = true
-        printSlow("You drop the sword.")
+        printSlow("You drop the sword.", game.TermWidth)
         tge.InventoryRemove(&player.Inventory, "sword")
       } else if swSword {
         swSword = false
-        printSlow("You pick up the sword. It's a long sword.")
+        printSlow("You pick up the sword. It's a long sword.", game.TermWidth)
         tge.InventoryAdd(&player.Inventory, "sword")
       } else {
-        printSlow("What sword?")
+        printSlow("What sword?", game.TermWidth)
       }
     } else if userchoice == "rope" {
       s()
       if tge.InventoryContains(&player.Inventory, "rope") {
         swRope = true
-        printSlow("You drop the rope.")
+        printSlow("You drop the rope.", game.TermWidth)
         tge.InventoryRemove(&player.Inventory, "rope")
       } else if swRope {
         swRope = false
-        printSlow("You pick up the rope. It looks heavy enough to hold your weight.")
+        printSlow("You pick up the rope. It looks heavy enough to hold your weight.", game.TermWidth)
         tge.InventoryAdd(&player.Inventory, "rope")
       } else {
-        printSlow("What rope?")
+        printSlow("What rope?", game.TermWidth)
       }
     //} else if userchoice == "?" {
       //checkLocalItems(swAxe, swSword, swRope)
@@ -726,7 +726,7 @@ func swArea(player tge.Player, game tge.Game) {
       description = baseDescription + axeDescription + swordDescription + ropeDescription + directions
 
       s()
-      printSlow(description)
+      printSlow(description, game.TermWidth)
     } else if userchoice == "inv" {
       s()
       tge.PrintInventory(&player.Inventory)
@@ -738,7 +738,7 @@ func swArea(player tge.Player, game tge.Game) {
       exit(0)
     } else {
       s()
-      printSlow("I'm sorry I don't understand '" + userchoice + "'. Please enter another option, or try 'help'.\n")
+      printSlow("I'm sorry I don't understand '" + userchoice + "'. Please enter another option, or try 'help'.\n", game.TermWidth)
     }
   }
 }
@@ -780,63 +780,63 @@ func sArea(player tge.Player, game tge.Game) {
   description = baseDescription + ropeDescription + axeDescription + swordDescription + directions
 
   s()
-  printSlow(description)
+  printSlow(description, game.TermWidth)
 
   for true {
     fmt.Print(" > ")
     fmt.Scan(&userchoice)
     if userchoice == "north" {
       s()
-      printSlow("You go north.")
+      printSlow("You go north.", game.TermWidth)
       startArea(player, game)
     } else if userchoice == "east" {
       s()
-      printSlow("You go east.")
+      printSlow("You go east.", game.TermWidth)
       seArea(player, game)
     } else if userchoice == "south" {
-      cantGo()
+      cantGo(game.TermWidth)
     } else if userchoice == "west" {
       s()
-      printSlow("You go west.")
+      printSlow("You go west.", game.TermWidth)
       swArea(player, game)
     } else if userchoice == "axe" {
       s()
       if tge.InventoryContains(&player.Inventory, "axe") {
         sAxe = true
-        printSlow("You drop the axe.")
+        printSlow("You drop the axe.", game.TermWidth)
         tge.InventoryRemove(&player.Inventory, "axe")
       } else if sAxe {
         sAxe = false
-        printSlow("You pick up the axe. It's a nice heavy American felling axe.")
+        printSlow("You pick up the axe. It's a nice heavy American felling axe.", game.TermWidth)
         tge.InventoryAdd(&player.Inventory, "axe")
       } else {
-        printSlow("What axe?")
+        printSlow("What axe?", game.TermWidth)
       }
     } else if userchoice == "sword" {
       s()
       if tge.InventoryContains(&player.Inventory, "sword") {
         sSword = true
-        printSlow("You drop the sword.")
+        printSlow("You drop the sword.", game.TermWidth)
         tge.InventoryRemove(&player.Inventory, "sword")
       } else if sSword {
         sSword = false
-        printSlow("You pick up the sword. It's a long sword.")
+        printSlow("You pick up the sword. It's a long sword.", game.TermWidth)
         tge.InventoryAdd(&player.Inventory, "sword")
       } else {
-        printSlow("What sword?")
+        printSlow("What sword?", game.TermWidth)
       }
     } else if userchoice == "rope" {
       s()
       if tge.InventoryContains(&player.Inventory, "rope") {
         sRope = true
-        printSlow("You drop the rope.")
+        printSlow("You drop the rope.", game.TermWidth)
         tge.InventoryRemove(&player.Inventory, "rope")
       } else if sRope {
         sRope = false
-        printSlow("You pick up the rope. It looks heavy enough to hold your weight.")
+        printSlow("You pick up the rope. It looks heavy enough to hold your weight.", game.TermWidth)
         tge.InventoryAdd(&player.Inventory, "rope")
       } else {
-        printSlow("What rope?")
+        printSlow("What rope?", game.TermWidth)
       }
     //} else if userchoice == "?" {
       //checkLocalItems(sAxe, sSword, sRope)
@@ -864,7 +864,7 @@ func sArea(player tge.Player, game tge.Game) {
       description = baseDescription + ropeDescription + axeDescription + swordDescription + directions
 
       s()
-      printSlow(description)
+      printSlow(description, game.TermWidth)
     } else if userchoice == "inv" {
       s()
       tge.PrintInventory(&player.Inventory)
@@ -876,7 +876,7 @@ func sArea(player tge.Player, game tge.Game) {
       exit(0)
     } else {
       s()
-      printSlow("I'm sorry I don't understand '" + userchoice + "'. Please enter another option, or try 'help'.\n")
+      printSlow("I'm sorry I don't understand '" + userchoice + "'. Please enter another option, or try 'help'.\n", game.TermWidth)
     }
   }
 }
@@ -921,7 +921,7 @@ func seArea(player tge.Player, game tge.Game) {
   description = baseDescription + axeDescription + swordDescription + ropeDescription + directions
 
   s()
-  printSlow(description)
+  printSlow(description, game.TermWidth)
 
   for true {
     fmt.Print(" > ")
@@ -930,76 +930,76 @@ func seArea(player tge.Player, game tge.Game) {
       s()
       // If you have the rope, you are guaranteed to climb the cliff. 
       if tge.InventoryContains(&player.Inventory, "rope") {
-        printSlow("You use the rope to climb the cliff.")
+        printSlow("You use the rope to climb the cliff.", game.TermWidth)
         eArea(player, game)
       // This is if you don't have a rope. Gives you a small change of
       // climbing the cliff. Currently 1/20 chance. Too small? Too big? 
       } else {
         if count < 5 {
-          printSlow("You decide to try free climbing the cliff...")
+          printSlow("You decide to try free climbing the cliff...", game.TermWidth)
           s()
           rn := tge.RandNumber(20)
           switch rn {
             case 7:
-              printSlow("You used your skill to successfully climb the cliff!")
+              printSlow("You used your skill to successfully climb the cliff!", game.TermWidth)
               eArea(player, game)
             default:
               count += 1
-              printSlow("You failed to climb the cliff, and fell to the bottom! Ouch!")
+              printSlow("You failed to climb the cliff, and fell to the bottom! Ouch!", game.TermWidth)
           }
         } else {
-          printSlow("You're a little beat up from failed attempts. Maybe take a break, and try again later.")
+          printSlow("You're a little beat up from failed attempts. Maybe take a break, and try again later.", game.TermWidth)
         }
       }
     } else if userchoice == "east" {
-      cantGo()
+      cantGo(game.TermWidth)
     } else if userchoice == "south" {
-      cantGo()
+      cantGo(game.TermWidth)
     } else if userchoice == "west" {
       s()
-      printSlow("You go west.")
+      printSlow("You go west.", game.TermWidth)
       sArea(player, game)
     } else if userchoice == "mountain" {
       s()
-      printSlow("To the east and south are mountains for miles.")
+      printSlow("To the east and south are mountains for miles.", game.TermWidth)
     } else if userchoice == "axe" {
       s()
       if tge.InventoryContains(&player.Inventory, "axe") {
         seAxe = true
-        printSlow("You drop the axe.")
+        printSlow("You drop the axe.", game.TermWidth)
         tge.InventoryRemove(&player.Inventory, "axe")
       } else if seAxe {
         seAxe = false
-        printSlow("You pick up the axe. It's a nice heavy American felling axe.")
+        printSlow("You pick up the axe. It's a nice heavy American felling axe.", game.TermWidth)
         tge.InventoryAdd(&player.Inventory, "axe")
       } else {
-        printSlow("What axe?")
+        printSlow("What axe?", game.TermWidth)
       }
     } else if userchoice == "sword" {
       s()
       if tge.InventoryContains(&player.Inventory, "sword") {
         seSword = true
-        printSlow("You drop the sword.")
+        printSlow("You drop the sword.", game.TermWidth)
         tge.InventoryRemove(&player.Inventory, "sword")
       } else if seSword {
         seSword = false
-        printSlow("You pick up the sword. It's a long sword.")
+        printSlow("You pick up the sword. It's a long sword.", game.TermWidth)
         tge.InventoryAdd(&player.Inventory, "sword")
       } else {
-        printSlow("What sword?")
+        printSlow("What sword?", game.TermWidth)
       }
     } else if userchoice == "rope" {
       s()
       if tge.InventoryContains(&player.Inventory, "rope") {
         seRope = true
-        printSlow("You drop the rope.")
+        printSlow("You drop the rope.", game.TermWidth)
         tge.InventoryRemove(&player.Inventory, "rope")
       } else if seRope {
         seRope = false
-        printSlow("You pick up the rope. It looks heavy enough to hold your weight.")
+        printSlow("You pick up the rope. It looks heavy enough to hold your weight.", game.TermWidth)
         tge.InventoryAdd(&player.Inventory, "rope")
       } else {
-        printSlow("What rope?")
+        printSlow("What rope?", game.TermWidth)
       }
     //} else if userchoice == "?" {
       //checkLocalItems(seAxe, seSword, seRope)
@@ -1027,7 +1027,7 @@ func seArea(player tge.Player, game tge.Game) {
       description = baseDescription + axeDescription + swordDescription + ropeDescription + directions
 
       s()
-      printSlow(description)
+      printSlow(description, game.TermWidth)
     } else if userchoice == "inv" {
       s()
       tge.PrintInventory(&player.Inventory)
@@ -1039,7 +1039,7 @@ func seArea(player tge.Player, game tge.Game) {
       exit(0)
     } else {
       s()
-      printSlow("I'm sorry I don't understand '" + userchoice + "'. Please enter another option, or try 'help'.\n")
+      printSlow("I'm sorry I don't understand '" + userchoice + "'. Please enter another option, or try 'help'.\n", game.TermWidth)
     }
   }
 }
@@ -1081,61 +1081,61 @@ func eArea(player tge.Player, game tge.Game) {
   description = baseDescription + axeDescription + swordDescription + ropeDescription + directions
 
   s()
-  printSlow(description)
+  printSlow(description, game.TermWidth)
 
   for true {
     fmt.Print(" > ")
     fmt.Scan(&userchoice)
     if userchoice == "north" {
       s()
-      printSlow("You go north.")
+      printSlow("You go north.", game.TermWidth)
       neArea(player, game)
     } else if userchoice == "east" {
-      cantGo()
+      cantGo(game.TermWidth)
     } else if userchoice == "south" {
       s()
-      printSlow("You go south.")
+      printSlow("You go south.", game.TermWidth)
       seArea(player, game)
     } else if userchoice == "west" {
-      cantGo()
+      cantGo(game.TermWidth)
     } else if userchoice == "axe" {
       s()
       if tge.InventoryContains(&player.Inventory, "axe") {
         eAxe = true
-        printSlow("You drop the axe.")
+        printSlow("You drop the axe.", game.TermWidth)
         tge.InventoryRemove(&player.Inventory, "axe")
       } else if eAxe {
         eAxe = false
-        printSlow("You pick up the axe. It's a nice heavy American felling axe.")
+        printSlow("You pick up the axe. It's a nice heavy American felling axe.", game.TermWidth)
         tge.InventoryAdd(&player.Inventory, "axe")
       } else {
-        printSlow("What axe?")
+        printSlow("What axe?", game.TermWidth)
       }
     } else if userchoice == "sword" {
       s()
       if tge.InventoryContains(&player.Inventory, "sword") {
         eSword = true
-        printSlow("You drop the sword.")
+        printSlow("You drop the sword.", game.TermWidth)
         tge.InventoryRemove(&player.Inventory, "sword")
       } else if eSword {
         eSword = false
-        printSlow("You pick up the sword. It's a long sword.")
+        printSlow("You pick up the sword. It's a long sword.", game.TermWidth)
         tge.InventoryAdd(&player.Inventory, "sword")
       } else {
-        printSlow("What sword?")
+        printSlow("What sword?", game.TermWidth)
       }
     } else if userchoice == "rope" {
       s()
       if tge.InventoryContains(&player.Inventory, "rope") {
         eRope = true
-        printSlow("You drop the rope.")
+        printSlow("You drop the rope.", game.TermWidth)
         tge.InventoryRemove(&player.Inventory, "rope")
       } else if eRope {
         eRope = false
-        printSlow("You pick up the rope. It looks heavy enough to hold your weight.")
+        printSlow("You pick up the rope. It looks heavy enough to hold your weight.", game.TermWidth)
         tge.InventoryAdd(&player.Inventory, "rope")
       } else {
-        printSlow("What rope?")
+        printSlow("What rope?", game.TermWidth)
       }
     //} else if userchoice == "?" {
       //checkLocalItems(eAxe, eSword, eRope)
@@ -1164,7 +1164,7 @@ func eArea(player tge.Player, game tge.Game) {
       description = baseDescription + axeDescription + swordDescription + ropeDescription + directions
 
       s()
-      printSlow(description)
+      printSlow(description, game.TermWidth)
     } else if userchoice == "inv" {
       s()
       tge.PrintInventory(&player.Inventory)
@@ -1176,7 +1176,7 @@ func eArea(player tge.Player, game tge.Game) {
       exit(0)
     } else {
       s()
-      printSlow("I'm sorry I don't understand '" + userchoice + "'. Please enter another option, or try 'help'.\n")
+      printSlow("I'm sorry I don't understand '" + userchoice + "'. Please enter another option, or try 'help'.\n", game.TermWidth)
     }
   }
 }
@@ -1225,68 +1225,68 @@ func neArea(player tge.Player, game tge.Game) {
   description = baseDescription + eventMonster + axeDescription + swordDescription + ropeDescription + directions
 
   s()
-  printSlow(description)
+  printSlow(description, game.TermWidth)
 
   for true {
     fmt.Print(" > ")
     fmt.Scan(&userchoice)
     if userchoice == "north" {
-      cantGo()
+      cantGo(game.TermWidth)
     } else if userchoice == "east" {
-      cantGo()
+      cantGo(game.TermWidth)
     } else if userchoice == "south" {
       s()
-      printSlow("You go south.")
+      printSlow("You go south.", game.TermWidth)
       eArea(player, game)
     } else if userchoice == "west" {
       if tge.InventoryContains(&player.Inventory, "sword") && game.Events["monster"] {
         monsterFight(player, game)
       } else if game.Events["monster"]{
         s()
-        printSlow("I don't think you can fight the monster without a sword...")
+        printSlow("I don't think you can fight the monster without a sword...", game.TermWidth)
       } else {
         s()
-        printSlow("You go west.")
+        printSlow("You go west.", game.TermWidth)
         nArea(player, game)
       }
     } else if userchoice == "axe" {
       s()
       if tge.InventoryContains(&player.Inventory, "axe") {
         neAxe = true
-        printSlow("You drop the axe.")
+        printSlow("You drop the axe.", game.TermWidth)
         tge.InventoryRemove(&player.Inventory, "axe")
       } else if neAxe {
         neAxe = false
-        printSlow("You pick up the axe. It's a nice heavy American felling axe.")
+        printSlow("You pick up the axe. It's a nice heavy American felling axe.", game.TermWidth)
         tge.InventoryAdd(&player.Inventory, "axe")
       } else {
-        printSlow("What axe?")
+        printSlow("What axe?", game.TermWidth)
       }
     } else if userchoice == "sword" {
       s()
       if tge.InventoryContains(&player.Inventory, "sword") {
         neSword = true
-        printSlow("You drop the sword.")
+        printSlow("You drop the sword.", game.TermWidth)
         tge.InventoryRemove(&player.Inventory, "sword")
       } else if neSword {
         neSword = false
-        printSlow("You pick up the sword. It's a long sword.")
+        printSlow("You pick up the sword. It's a long sword.", game.TermWidth)
         tge.InventoryAdd(&player.Inventory, "sword")
       } else {
-        printSlow("What sword?")
+        printSlow("What sword?", game.TermWidth)
       }
     } else if userchoice == "rope" {
       s()
       if tge.InventoryContains(&player.Inventory, "rope") {
         neRope = true
-        printSlow("You drop the rope.")
+        printSlow("You drop the rope.", game.TermWidth)
         tge.InventoryRemove(&player.Inventory, "rope")
       } else if neRope {
         neRope = false
-        printSlow("You pick up the rope. It looks heavy enough to hold your weight.")
+        printSlow("You pick up the rope. It looks heavy enough to hold your weight.", game.TermWidth)
         tge.InventoryAdd(&player.Inventory, "rope")
       } else {
-        printSlow("What rope?")
+        printSlow("What rope?", game.TermWidth)
       }
     //} else if userchoice == "?" {
       //checkLocalItems(neAxe, neSword, neRope)
@@ -1320,7 +1320,7 @@ func neArea(player tge.Player, game tge.Game) {
       description = baseDescription + eventMonster + axeDescription + swordDescription + ropeDescription + directions
 
       s()
-      printSlow(description)
+      printSlow(description, game.TermWidth)
     } else if userchoice == "inv" {
       s()
       tge.PrintInventory(&player.Inventory)
@@ -1332,7 +1332,7 @@ func neArea(player tge.Player, game tge.Game) {
       exit(0)
     } else {
       s()
-      printSlow("I'm sorry I don't understand '" + userchoice + "'. Please enter another option, or try 'help'.\n")
+      printSlow("I'm sorry I don't understand '" + userchoice + "'. Please enter another option, or try 'help'.\n", game.TermWidth)
     }
   }
 }
@@ -1345,13 +1345,13 @@ func monsterFight(player tge.Player, game tge.Game) {
     //var stringDamage string
     monsterHealth := 20
     s()
-    printSlow("You decide to fight the monster.")
+    printSlow("You decide to fight the monster.", game.TermWidth)
 
     for monsterHealth > 0 {
       // I don't remember why this is + 1? Maybe so it is never 0?
       rn := tge.RandNumber(10) + 1
       s()
-      printSlow("Pick a number between 1 and 10")
+      printSlow("Pick a number between 1 and 10", game.TermWidth)
       fmt.Print(" > ")
       fmt.Scan(&userchoice)
       if userchoice <= 10 && userchoice >= 0 {
@@ -1362,7 +1362,7 @@ func monsterFight(player tge.Player, game tge.Game) {
         }
         monsterHealth -= damage
         s()
-        printSlow("You deal " + strconv.Itoa(damage) + " damage to the monster.")
+        printSlow("You deal " + strconv.Itoa(damage) + " damage to the monster.", game.TermWidth)
         //fmt.Println("--------diag---------------")
         //fmt.Println("Random Number:", rn)
         //fmt.Println("User choice:", userchoice)
@@ -1371,20 +1371,20 @@ func monsterFight(player tge.Player, game tge.Game) {
         //fmt.Println("--------diag---------------")
         if monsterHealth <= 0 {
           s()
-          printSlow("You Defeated the monster!")
+          printSlow("You Defeated the monster!", game.TermWidth)
           s()
-          printSlow("You go west.")
+          printSlow("You go west.", game.TermWidth)
           game.Events["monster"] = false
           nArea(player, game)
         }
       } else {
         s()
-        printSlow("Invalid Number!")
+        printSlow("Invalid Number!", game.TermWidth)
       }
     }
   } else {
     s()
-    printSlow("You go west.")
+    printSlow("You go west.", game.TermWidth)
     nArea(player, game)
   }
 }
@@ -1426,64 +1426,64 @@ func nArea(player tge.Player, game tge.Game) {
   description = baseDescription + axeDescription + swordDescription + ropeDescription + directions
 
   s()
-  printSlow(description)
+  printSlow(description, game.TermWidth)
 
   for true {
     fmt.Print(" > ")
     fmt.Scan(&userchoice)
     if userchoice == "north" {
       s()
-      printSlow("You go north.")
+      printSlow("You go north.", game.TermWidth)
       exitArea(player, game)
     } else if userchoice == "east" {
       s()
-      printSlow("You go east.")
+      printSlow("You go east.", game.TermWidth)
       neArea(player, game)
     } else if userchoice == "south" {
-      cantGo()
+      cantGo(game.TermWidth)
     } else if userchoice == "west" {
-      cantGo()
+      cantGo(game.TermWidth)
     } else if userchoice == "flower" {
       s()
-      printSlow("You pick a flower and smell it.")
+      printSlow("You pick a flower and smell it.", game.TermWidth)
     } else if userchoice == "axe" {
       s()
       if tge.InventoryContains(&player.Inventory, "axe") {
         nAxe = true
-        printSlow("You drop the axe.")
+        printSlow("You drop the axe.", game.TermWidth)
         tge.InventoryRemove(&player.Inventory, "axe")
       } else if nAxe {
         nAxe = false
-        printSlow("You pick up the axe. It's a nice heavy American felling axe.")
+        printSlow("You pick up the axe. It's a nice heavy American felling axe.", game.TermWidth)
         tge.InventoryAdd(&player.Inventory, "axe")
       } else {
-        printSlow("What axe?")
+        printSlow("What axe?", game.TermWidth)
       }
     } else if userchoice == "sword" {
       s()
       if tge.InventoryContains(&player.Inventory, "sword") {
         nSword = true
-        printSlow("You drop the sword.")
+        printSlow("You drop the sword.", game.TermWidth)
         tge.InventoryRemove(&player.Inventory, "sword")
       } else if nSword {
         nSword = false
-        printSlow("You pick up the sword. It's a long sword.")
+        printSlow("You pick up the sword. It's a long sword.", game.TermWidth)
         tge.InventoryAdd(&player.Inventory, "sword")
       } else {
-        printSlow("What sword?")
+        printSlow("What sword?", game.TermWidth)
       }
     } else if userchoice == "rope" {
       s()
       if tge.InventoryContains(&player.Inventory, "rope") {
         nRope = true
-        printSlow("You drop the rope.")
+        printSlow("You drop the rope.", game.TermWidth)
         tge.InventoryRemove(&player.Inventory, "rope")
       } else if nRope {
         nRope = false
-        printSlow("You pick up the rope. It looks heavy enough to hold your weight.")
+        printSlow("You pick up the rope. It looks heavy enough to hold your weight.", game.TermWidth)
         tge.InventoryAdd(&player.Inventory, "rope")
       } else {
-        printSlow("What rope?")
+        printSlow("What rope?", game.TermWidth)
       }
     //} else if userchoice == "?" {
       //checkLocalItems(nAxe, nSword, nRope)
@@ -1511,7 +1511,7 @@ func nArea(player tge.Player, game tge.Game) {
       description = baseDescription + axeDescription + swordDescription + ropeDescription + directions
 
       s()
-      printSlow(description)
+      printSlow(description, game.TermWidth)
     } else if userchoice == "inv" {
       s()
       tge.PrintInventory(&player.Inventory)
@@ -1523,7 +1523,7 @@ func nArea(player tge.Player, game tge.Game) {
       exit(0)
     } else {
       s()
-      printSlow("I'm sorry I don't understand '" + userchoice + "'. Please enter another option, or try 'help'.\n")
+      printSlow("I'm sorry I don't understand '" + userchoice + "'. Please enter another option, or try 'help'.\n", game.TermWidth)
     }
   }
 }
@@ -1531,9 +1531,9 @@ func nArea(player tge.Player, game tge.Game) {
 
 func exitArea(player tge.Player, game tge.Game) {
   s()
-  printSlow("Congratulations, " + player.Name + "!")
-  printSlow("You win!")
-  printSlow("Hope you had fun!")
+  printSlow("Congratulations, " + player.Name + "!", game.TermWidth)
+  printSlow("You win!", game.TermWidth)
+  printSlow("Hope you had fun!", game.TermWidth)
   exit(0)
 }
 
@@ -1625,17 +1625,17 @@ func main() {
   nRope = false
 
   var name string
-
-  name = intro()
-  player := tge.Player {
-    Name: name,
-    Score: 0,
-  }
-
   termWidth, _, err := term.GetSize(0)
   if err != nil {
     fmt.Println(err)
     os.Exit(1)
+  }
+
+
+  name = intro(termWidth)
+  player := tge.Player {
+    Name: name,
+    Score: 0,
   }
 
   game := tge.Game {
@@ -1648,10 +1648,6 @@ func main() {
     "monster":true,
   }
 
-
-  fmt.Println("Terminal Width:", game.TermWidth)
-
   s()
   startArea(player, game)
-
 }
