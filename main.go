@@ -20,6 +20,7 @@ import (
   "flag"
   "strconv"
   tge "github.com/unclassedpenguin/textgameengine"
+  "golang.org/x/term"
 )
 
 
@@ -63,8 +64,29 @@ func cantGo() {
     }
 }
 
+// For word wrap
+func wordWrap(text string, lineWidth int) (wrapped string) {
+    words := strings.Fields(strings.TrimSpace(text))
+    if len(words) == 0 {
+        return text
+    }
+    wrapped = words[0]
+    spaceLeft := lineWidth - len(wrapped)
+    for _, word := range words[1:] {
+        if len(word)+1 > spaceLeft {
+            wrapped += "\n" + word
+            spaceLeft = lineWidth - len(word)
+        } else {
+            wrapped += " " + word
+            spaceLeft -= 1 + len(word)
+        }
+    }
+    return
+}
+
 // Prints the text character by character.
-func printSlow(str string) {
+func printSlow(str string, termWidth int) {
+  str = wordWrap(str, termWidth)
   if slowMode {
     stringSplit := strings.Split(str, "")
     for _, l := range stringSplit {
@@ -1531,8 +1553,7 @@ func exitArea(player tge.Player, game tge.Game) {
 // character by character.
 var slowMode bool
 
-// Global inventory
-var inventory = []string{}
+var termWidth int
 
 // Areas inventory
 var startAxe bool
@@ -1563,8 +1584,6 @@ var nAxe bool
 var nSword bool
 var nRope bool
 
-// Global event tracker
-// ask, Does it exist? if so, true. 
 
 
 //-----------------------------------------------------------------------------
@@ -1606,14 +1625,22 @@ func main() {
   nRope = false
 
   var name string
+
   name = intro()
   player := tge.Player {
     Name: name,
     Score: 0,
   }
 
+  termWidth, _, err := term.GetSize(0)
+  if err != nil {
+    fmt.Println(err)
+    os.Exit(1)
+  }
+
   game := tge.Game {
     Events: make(map[string]bool),
+    TermWidth: termWidth,
   }
 
   game.Events = map[string]bool {
@@ -1621,6 +1648,10 @@ func main() {
     "monster":true,
   }
 
+
+  fmt.Println("Terminal Width:", game.TermWidth)
+
   s()
   startArea(player, game)
+
 }
