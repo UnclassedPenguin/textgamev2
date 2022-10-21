@@ -1,5 +1,5 @@
-github.com/unclassedpenguin/textgameengine v0.0.0-20221021023931-358c1c9f576f h1:Ws4ozEKWfexhEBbV/53fXd0/hQG5qzwVtZk8VU4nNxA=
-github.com/unclassedpenguin/textgameengine v0.0.0-20221021023931-358c1c9f576f/go.mod h1:Bv2PvKknLW4dJIqwnvFQGQh0lom4k3ms3w2oOWJKs1A=
+github.com/unclassedpenguin/textgameengine v0.1.0 h1:2q0dckjbW57yjFCj+7q6mSE4TIlwC6en176fsC6vz0w=
+github.com/unclassedpenguin/textgameengine v0.1.0/go.mod h1:Bv2PvKknLW4dJIqwnvFQGQh0lom4k3ms3w2oOWJKs1A=
 golang.org/x/sys v0.0.0-20210615035016-665e8c7367d1 h1:SrN+KX8Art/Sf4HNj6Zcz06G7VEz+7w9tdXTPOZ7+l4=
 golang.org/x/sys v0.0.0-20210615035016-665e8c7367d1/go.mod h1:oPkhp1MJrh7nUepCBck5+mAzfO9JrbApNNgaTdGDITg=
 golang.org/x/term v0.1.0 h1:g6Z6vPFA9dYBAF7DWcH6sCcOntplXsDKcliusYijMlw=

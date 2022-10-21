@@ -3,7 +3,7 @@ module github.com/unclassedpenguin/textgamev2
 go 1.19
 
 require (
-	github.com/unclassedpenguin/textgameengine v0.0.0-20221021023931-358c1c9f576f
+	github.com/unclassedpenguin/textgameengine v0.1.0
 	golang.org/x/term v0.1.0
 )
 
