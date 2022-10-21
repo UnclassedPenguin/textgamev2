@@ -28,7 +28,7 @@ import (
 
 // Prints the help function when you type help or ?
 func help() {
-  dashLine()
+  fmt.Println("--------------------------------------------------------------------------------")
   fmt.Println("Help: ")
   fmt.Println("To move a direction, simply type the direction you want to go.")
   fmt.Println("       i.e.(north, south, east, or west)")
@@ -36,44 +36,20 @@ func help() {
   fmt.Println("Type 'inv' to check whats in your inventory.")
   fmt.Println("Type 'look' to check your surroundings.")
   fmt.Println("Type 'exit' to exit the game.")
-  dashLine()
+  fmt.Println("--------------------------------------------------------------------------------")
 }
 
 //I'd like to make a few phrases here and randomly pick one to say, just
 //for some variety.
 func cantGo(termWidth int) {
-  rn := tge.RandNumber(4)
-  switch rn {
-    case 0:
-      s()
-      tge.PrintSlow("I'm sorry, That way is blocked.", termWidth, slowMode)
-    case 1:
-      s()
-      tge.PrintSlow("I'm sorry, you can't go that way.", termWidth, slowMode)
-    case 2:
-      s()
-      tge.PrintSlow("Doesn't seem to be a path in that direction.", termWidth, slowMode)
-    case 3:
-      s()
-      tge.PrintSlow("It's not possible to go that way.", termWidth, slowMode)
-
-      s()
-      tge.PrintSlow("How'd you get here?", termWidth, slowMode)
-    }
-}
-
-// Diagnostics thing to check value of area inv variables
-//func checkLocalItems(axe bool, sword bool, rope bool) {
-  //fmt.Println("-----------------------------")
-  //fmt.Println("   Axe : ", axe)
-  //fmt.Println(" Sword : ", sword)
-  //fmt.Println("  Rope : ", rope)
-  //fmt.Println("-----------------------------")
-//}
-
-// Just prints a separator
-func dashLine() {
-  fmt.Println("--------------------------------------------------------------------------------")
+  cantGoStrings := []string{
+    "I'm sorry, that way is blocked.",
+    "I'm sorry, you can't go that way.",
+    "Doesn't seem to be a path in that direction.",
+    "It's not possible to go that way.",
+  }
+  s()
+  tge.PrintSlow(cantGoStrings[tge.RandNumber(4)], termWidth, slowMode)
 }
 
 //s for give me some (s)pace
@@ -86,7 +62,6 @@ func exit(i int) {
   fmt.Println("Thanks For Playing!")
   os.Exit(i)
 }
-
 
 //-----------------------------------------------------------------------------
 // Functions end
@@ -114,7 +89,7 @@ func intro(termWidth int) string{
   s()
   tge.PrintSlow("Hope you enjoy the game, " + name + ". Good luck!\nIf you get stuck, try 'help'.", termWidth, slowMode)
   s()
-  dashLine()
+  fmt.Println("--------------------------------------------------------------------------------")
   s()
   tge.PrintSlow("You wake up and become aware of your surroundings. You're not quite sure what happened, and your head feels a bit cloudy. Your eyes slowly start to open........", termWidth, slowMode)
   return name
