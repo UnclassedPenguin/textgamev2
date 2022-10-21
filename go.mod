@@ -1,11 +1,9 @@
-module textgamev2
+module github.com/unclassedpenguin/textgamev2
 
 go 1.19
 
-replace github.com/unclassedpenguin/textgameengine => ../textgameengine
-
 require (
-	github.com/unclassedpenguin/textgameengine v0.0.0-00010101000000-000000000000
+	github.com/unclassedpenguin/textgameengine v0.0.0-20221021023931-358c1c9f576f
 	golang.org/x/term v0.1.0
 )
 
