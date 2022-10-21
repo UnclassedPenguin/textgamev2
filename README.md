@@ -4,17 +4,31 @@ Just doing this for fun. Seeing where it goes...Does anyone play these anymore, 
 
 ### Install
 
+Couple ways to install. If your go env is set up properly, all you need to do is
+
+```shell
+$ go install github.com/unclassedpenguin/textgamev2@latest
+```
+
+And then run 
+
+```shell
+$ textgamev2
+```
+
+Or If you want to do it manually:
+
 - Clone this repository.
 - cd into folder
 - run: 
 
 ```shell
-$ go build game.go
+$ go build main.go
 ```
 - Then just execute!
 
 ```shell
-$ ./game
+$ ./main
 ```
 
 ### To-do:
