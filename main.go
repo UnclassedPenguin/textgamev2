@@ -42,14 +42,14 @@ func help() {
 //I'd like to make a few phrases here and randomly pick one to say, just
 //for some variety.
 func cantGo(termWidth int) {
-  cantGoStrings := []string{
+  str := []string{
     "I'm sorry, that way is blocked.",
     "I'm sorry, you can't go that way.",
     "Doesn't seem to be a path in that direction.",
     "It's not possible to go that way.",
   }
   s()
-  tge.PrintSlow(cantGoStrings[tge.RandNumber(4)], termWidth, slowMode)
+  tge.PrintSlow(str[tge.RandNumber(len(str))], termWidth, slowMode)
 }
 
 //s for give me some (s)pace
